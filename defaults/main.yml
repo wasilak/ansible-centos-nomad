@@ -1,0 +1,16 @@
+---
+nomad_version: "0.6.0"
+filename: "nomad_{{ nomad_version }}_linux_amd64.zip"
+download_url: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/{{ filename }}"
+nomad_user: "root"
+nomad_group: "root"
+executable_location: "/usr/bin/nomad"
+datacenter: "default"
+data_dir: "/var/lib/nomad"
+is_server: true
+client_addr: "0.0.0.0"
+bind_addr: "{{ ansible_ssh_host }}"
+cluster:
+  servers: [ "{{ bind_addr }}" ]
+  clients: []
+network_interface: "eth1"

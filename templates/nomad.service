@@ -1,0 +1,24 @@
+[Unit]
+Description=nomad agent
+Requires=network-online.target
+After=network.target
+
+[Service]
+PIDFile=/run/nomad/nomad.pid
+LimitNOFILE=65536
+
+# other than root can't communicate with docker over socket
+User={{ nomad_user }}
+Group={{ nomad_group }}
+
+# breaks service (too many restarts) when used in Vagrant
+# Restart=on-failure
+
+ExecStart={{ executable_location }} agent $OPTIONS -config=/etc/nomad.d
+ExecReload=/bin/kill -HUP $MAINPID
+
+KillSignal=SIGTERM
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target
